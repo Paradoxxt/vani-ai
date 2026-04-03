@@ -157,7 +157,6 @@ Without importing, Java doesn't know where to find these tools.
 
 - Wrong:  String x = """{ "key": "value" }""";
 - Right:  String x =
--
 
                   """
                   
