@@ -212,9 +212,9 @@ Without importing, Java doesn't know where to find these tools.
 
 ## The full flow of our program now:
 
-Step 1: Create HttpClient         (the postman)
-Step 2: Prepare JSON body         (write the letter)
-Step 3: Build HttpRequest         (address + seal the envelope)
-Step 4: Send + get HttpResponse   (postman delivers, brings reply)
-Step 5: Parse JSON response       (open reply, find translated_text drawer)
-Step 6: Write to file             (save Hindi text properly with UTF-8)
+- Step 1: Create HttpClient         (the postman)
+- Step 2: Prepare JSON body         (write the letter)
+- Step 3: Build HttpRequest         (address + seal the envelope)
+- Step 4: Send + get HttpResponse   (postman delivers, brings reply)
+- Step 5: Parse JSON response       (open reply, find translated_text drawer)
+- Step 6: Write to file             (save Hindi text properly with UTF-8)
