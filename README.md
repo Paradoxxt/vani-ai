@@ -49,17 +49,19 @@ Vani AI aims to be a **cost-efficient, locally-aware voice assistant** that:
 
 ## 🏗️ Architecture (Planned)
 
+<pre>
 User Voice Input
-↓
+      ↓
 Wake Word Detection
-↓
+      ↓
 Speech-to-Text (Multilingual)
-↓
+      ↓
 Intent Recognition / NLP Engine
-↓
+      ↓
 Response Generator (Localized)
-↓
+      ↓
 Text-to-Speech → Bluetooth Speaker Output
+</pre>
 
 ---
 
