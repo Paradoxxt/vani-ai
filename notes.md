@@ -147,3 +147,15 @@ Without importing, Java doesn't know where to find these tools.
 - Java only loads what you ask for — nothing extra
 - Every class you use must be imported (except java.lang — that's automatic)
 - java.lang includes: String, System, Math — that's why you never import those
+
+## Java Text Blocks (triple quotes)
+- Introduced in Java 13+
+- Used for writing multi-line strings cleanly (like JSON)
+- RULE: opening """ must have nothing after it on the same line
+- RULE: content starts on the NEXT line
+- RULE: closing """ can be on its own line
+
+- Wrong:  String x = """{ "key": "value" }""";
+- Right:  String x = """
+                  { "key": "value" }
+                  """;
