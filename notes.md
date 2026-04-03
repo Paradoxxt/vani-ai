@@ -163,3 +163,58 @@ Without importing, Java doesn't know where to find these tools.
                   { "key": "value" }
   
                   """;
+
+## JSON Parsing — Reading Sarvam's Response
+
+### What Sarvam sends back (raw):
+{"request_id":"abc123","translated_text":"नमस्ते, मेरा नाम वाणी है!","source_language_code":"en-IN"}
+
+### Problem: this is just one big String — Java can't use it directly
+### Solution: parse it into a JSONObject so we can pick out specific fields
+
+---
+
+### Line by line:
+
+// org.json.JSONObject jsonResponse = new org.json.JSONObject(response.body());
+- response.body()     = the raw string Sarvam sent back
+- new JSONObject(...)  = converts that raw string into a structured object
+- jsonResponse         = now we can access individual fields by name
+- Think of it like: converting a letter into a filing cabinet with labeled drawers
+
+// String translatedText = jsonResponse.getString("translated_text");
+- .getString("translated_text") = open the drawer labeled "translated_text"
+- Returns the value inside that drawer as a String
+- Other methods you'll use:
+    .getInt("number")       = get a number value
+    .getBoolean("success")  = get a true/false value
+    .getJSONObject("data")  = get a nested JSON object
+
+---
+
+## File Writing — Saving output to a file
+
+// java.nio.file.Files.writeString(path, content, charset)
+- Files          = Java's built-in file handling class
+- .writeString() = writes a String directly to a file
+- Three arguments:
+    1. Path.of("translation_output.txt") = WHERE to save (filename)
+    2. "Original: ..." + translatedText  = WHAT to save (the content)
+    3. StandardCharsets.UTF_8            = HOW to save (UTF-8 supports Hindi/all languages)
+
+// Why UTF-8?
+- UTF-8 is a character encoding standard
+- Supports ALL languages including Hindi, Bengali, Tamil etc.
+- Without UTF-8 — Hindi characters show as ????? or garbage
+- Always use UTF-8 when working with Indian languages
+
+---
+
+## The full flow of our program now:
+
+Step 1: Create HttpClient         (the postman)
+Step 2: Prepare JSON body         (write the letter)
+Step 3: Build HttpRequest         (address + seal the envelope)
+Step 4: Send + get HttpResponse   (postman delivers, brings reply)
+Step 5: Parse JSON response       (open reply, find translated_text drawer)
+Step 6: Write to file             (save Hindi text properly with UTF-8)
