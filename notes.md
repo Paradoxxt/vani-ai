@@ -104,3 +104,46 @@
   Phase 3 (Week 5-7)  — Real commands (weather, news, timer) + all Indian languages
   Phase 4 (Week 8-10) — Proper Android app in Java/Kotlin + Raspberry Pi port
   Phase 5 (Week 11-12)— GitHub release + demo video + Sarvam startup program
+
+  ## Java Imports — What they mean
+
+Think of imports like "calling your team members before starting work"
+Without importing, Java doesn't know where to find these tools.
+
+### import java.net.http.HttpClient
+- `java.net`        = Java's networking package (anything internet related)
+- `.http`           = specifically the HTTP part of networking
+- `.HttpClient`     = the actual tool — the POSTMAN who sends your request
+- Without this: Java doesn't know what HttpClient means
+
+### import java.net.http.HttpRequest
+- Same package as HttpClient (java.net.http)
+- `.HttpRequest`    = the LETTER you're sending (contains URL, headers, body)
+- Without this: Java doesn't know how to build a request
+
+### import java.net.http.HttpResponse
+- Same package again
+- `.HttpResponse`   = the REPLY that comes back from Sarvam's server
+- Contains: status code, headers, and the actual response body
+- Without this: Java doesn't know how to read the response
+
+### import java.net.URI
+- `java.net`        = Java's networking package
+- `.URI`            = Uniform Resource Identifier (fancy name for a URL)
+- Used to create the destination address for your request
+- Example: URI.create("https://api.sarvam.ai/translate")
+- Without this: Java doesn't know how to handle URLs
+
+## The Pattern — Why same package (java.net.http)?
+- HttpClient, HttpRequest, HttpResponse all live in the same package
+- Because they all work TOGETHER to make one HTTP call
+- Client SENDS the Request and receives the Response
+- Think of them as a team:
+    HttpClient   = the postman
+    HttpRequest  = the letter
+    HttpResponse = the reply
+
+## Golden Rule about imports
+- Java only loads what you ask for — nothing extra
+- Every class you use must be imported (except java.lang — that's automatic)
+- java.lang includes: String, System, Math — that's why you never import those
