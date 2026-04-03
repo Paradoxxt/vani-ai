@@ -156,8 +156,11 @@ Without importing, Java doesn't know where to find these tools.
 - RULE: closing """ can be on its own line
 
 - Wrong:  String x = """{ "key": "value" }""";
-- Right:  String x = """
-- 
+- Right:  String x =
+-
+
+                  """
+                  
                   { "key": "value" }
   
                   """;
