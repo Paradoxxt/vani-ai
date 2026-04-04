@@ -218,3 +218,58 @@ Without importing, Java doesn't know where to find these tools.
 - Step 4: Send + get HttpResponse   (postman delivers, brings reply)
 - Step 5: Parse JSON response       (open reply, find translated_text drawer)
 - Step 6: Write to file             (save Hindi text properly with UTF-8)
+
+## Audio Recording in Java — How it works
+
+### Why do we need a dependency for audio?
+- Java has basic audio support built-in (javax.sound.sampled)
+- But it has limitations with certain audio formats
+- tritonus-share fills the gaps Java's built-in audio misses
+- Think of it like: Java gives you a basic microphone,
+  tritonus gives you a professional one
+
+### What is tritonus-share?
+- A library that extends Java's audio capabilities
+- Helps Java properly handle audio formats like WAV
+- WAV = the audio format Sarvam STT API accepts
+- Without it: Java might record in wrong format
+- With it: clean, compatible audio recording
+
+### Audio Recording Flow in Vani AI:
+Step 1 — Open microphone (AudioSystem.getTargetDataLine)
+Step 2 — Start recording (line.start())
+Step 3 — Capture audio bytes while user speaks
+Step 4 — Stop recording (line.stop())
+Step 5 — Save as WAV file
+Step 6 — Send WAV file to Sarvam STT API
+Step 7 — Get back text of what was said
+
+### Key Java Audio Classes we'll use:
+- AudioSystem        = the main door to Java's audio system
+- TargetDataLine     = represents the microphone input line
+- AudioFormat        = describes how audio is recorded
+                       (sample rate, bit depth, channels)
+- AudioInputStream   = stream of audio data from microphone
+- AudioFileWriter    = writes audio data to a WAV file
+
+### AudioFormat — what the settings mean:
+AudioFormat format = new AudioFormat(
+    16000,    // Sample rate — 16000 Hz (good quality for speech)
+    16,       // Bit depth — 16 bit (standard)
+    1,        // Channels — 1 = mono (one microphone)
+    true,     // Signed — true (standard)
+    false     // Big endian — false (standard for WAV)
+);
+- Sample rate: how many times per second audio is sampled
+  Higher = better quality but bigger file
+  16000 Hz is perfect for voice/speech
+- Bit depth: how much detail per sample
+  16 bit = CD quality for voice
+- Channels: 1 = mono (one mic), 2 = stereo (two mics)
+  We use mono since it's just one voice
+
+### Why WAV format?
+- WAV = Waveform Audio File Format
+- Uncompressed audio — no quality loss
+- Sarvam STT API accepts WAV
+- Easy for Java to write and read
