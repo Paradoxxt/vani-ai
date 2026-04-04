@@ -399,3 +399,100 @@ microphone.close();
   Record thread → capturing audio
   Both happening at the SAME TIME
 - This is called multithreading — very important concept!
+
+## App.java v2 — Voice Input Breakdown
+
+### New imports added:
+import java.io.File;
+- File = represents a file on your computer
+- We use it to hold the recorded voice_input.wav
+
+import java.nio.file.Files;
+- Files = utility class for file operations
+- We use Files.readAllBytes() to read WAV file into memory
+
+### What changed from v1 to v2:
+
+V1 (yesterday):
+- Hardcoded text → Sarvam Translate API → Hindi text
+
+V2 (today):
+- Microphone → WAV file → Sarvam STT API → text of what you said
+
+---
+
+### Step 1 — Record voice
+File audioFile = VoiceRecorder.recordAudio();
+- Calls our VoiceRecorder class we just made
+- Records 5 seconds from microphone
+- Returns the saved voice_input.wav file
+- audioFile = a pointer to that WAV file on disk
+
+---
+
+### Step 2 — Read audio as bytes
+byte[] audioBytes = Files.readAllBytes(audioFile.toPath());
+
+- byte[] = array of raw bytes (0s and 1s)
+- Files.readAllBytes() = reads entire file into memory as bytes
+- audioFile.toPath() = converts File to Path (needed by Files class)
+- Why bytes? Because APIs transfer raw binary data over internet
+- Think of it like: converting a physical letter into digital bits
+  to send over email
+
+---
+
+### Step 3 — Send to Sarvam STT API
+
+// New header:
+.header("Content-Type", "audio/wav")
+- Telling Sarvam: "I'm sending you a WAV audio file"
+- Different from before where we sent "application/json"
+- Content-Type tells the server what FORMAT the data is in
+
+// New body:
+.POST(HttpRequest.BodyPublishers.ofByteArray(audioBytes))
+- ofByteArray() = sends raw bytes instead of a String
+- Before we used ofString(json) for text
+- Now we use ofByteArray(audioBytes) for audio
+- The audio file travels over internet as raw bytes
+
+---
+
+### Step 4 — Print what Vani heard
+System.out.println("Sarvam heard: " + response.body());
+- Sarvam STT processes the audio
+- Returns JSON with the transcribed text
+- Example response:
+  {"transcript": "hello my name is Vani"}
+
+---
+
+### Key Concept — Different Content-Types:
+| What you send  | Content-Type        | Body method          |
+|----------------|---------------------|----------------------|
+| JSON text      | application/json    | ofString(json)       |
+| Audio file     | audio/wav           | ofByteArray(bytes)   |
+| Image file     | image/jpeg          | ofByteArray(bytes)   |
+| Form data      | multipart/form-data | ofInputStream(...)   |
+
+---
+
+### Full V2 Flow:
+
+
+-Microphone (5 sec)
+    - ↓
+-voice_input.wav (saved on disk)
+     -↓
+-Files.readAllBytes() (loaded into memory)
+     -↓
+-HttpRequest with audio/wav header (sent to Sarvam)
+     -↓
+-Sarvam STT processes audio
+     -↓
+-Returns transcript text
+     -↓
+-System.out.println shows what Vani heard
+
+
