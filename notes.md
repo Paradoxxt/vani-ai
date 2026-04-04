@@ -481,18 +481,18 @@ System.out.println("Sarvam heard: " + response.body());
 ### Full V2 Flow:
 
 
--Microphone (5 sec)
-    - ↓
--voice_input.wav (saved on disk)
-     -↓
--Files.readAllBytes() (loaded into memory)
-     -↓
--HttpRequest with audio/wav header (sent to Sarvam)
-     -↓
--Sarvam STT processes audio
-     -↓
--Returns transcript text
-     -↓
--System.out.println shows what Vani heard
+-     Microphone (5 sec)
+-            ↓
+-     voice_input.wav (saved on disk)
+-            ↓
+-     Files.readAllBytes() (loaded into memory)
+-            ↓
+-     HttpRequest with audio/wav header (sent to Sarvam)
+-            ↓
+-     Sarvam STT processes audio
+-            ↓
+-     Returns transcript text
+-            ↓
+-     System.out.println shows what Vani heard
 
 
