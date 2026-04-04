@@ -273,3 +273,129 @@ AudioFormat format = new AudioFormat(
 - Uncompressed audio — no quality loss
 - Sarvam STT API accepts WAV
 - Easy for Java to write and read
+
+## VoiceRecorder.java — Full Breakdown
+
+### Constants (settings at the top)
+private static final int SAMPLE_RATE = 16000;
+private static final int SAMPLE_SIZE = 16;
+private static final int CHANNELS = 1;
+private static final int RECORD_SECONDS = 5;
+
+- static final = constant — never changes during program run
+- SAMPLE_RATE 16000  = capture 16000 audio samples per second
+                       perfect for speech, what Sarvam expects
+- SAMPLE_SIZE 16     = each sample is 16 bits = CD quality voice
+- CHANNELS 1         = mono (one microphone, one voice)
+- RECORD_SECONDS 5   = record for 5 seconds then stop
+
+---
+
+### Step 1 — AudioFormat
+AudioFormat format = new AudioFormat(
+    SAMPLE_RATE,  // 16000 Hz
+    SAMPLE_SIZE,  // 16 bit
+    CHANNELS,     // 1 = mono
+    true,         // signed (standard for PCM audio)
+    false         // little endian (standard for WAV on Windows)
+);
+
+- AudioFormat = a blueprint describing HOW to record audio
+- Like telling the microphone: "record at this quality"
+- Sarvam STT API requires exactly these settings
+- Little endian = how bytes are ordered in memory
+  Windows uses little endian, Mac uses big endian
+
+---
+
+### Step 2 — Open Microphone
+DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+
+- DataLine.Info = describes what kind of audio line we need
+- TargetDataLine.class = "I want an INPUT line" (microphone)
+  (SourceDataLine would be OUTPUT = speakers)
+- Think of it like: "I need a microphone that records in THIS format"
+
+if (!AudioSystem.isLineSupported(info)) {
+    throw new Exception("Microphone not supported!");
+}
+- Safety check — does this computer have a compatible mic?
+- If no mic found → throw exception (stop program with error)
+- Always check before trying to use hardware!
+
+TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(info);
+microphone.open(format);
+- AudioSystem.getLine(info) = get the actual microphone
+- .open(format) = turn on the microphone, prepare it to record
+- Like plugging in and turning on your mic
+
+---
+
+### Step 3 — Start Recording
+microphone.start();
+- Actually starts capturing audio from the microphone
+- Audio data starts flowing into memory
+- Think of it like: pressing the record button
+
+AudioInputStream audioStream = new AudioInputStream(microphone);
+- Wraps the microphone in a stream
+- Stream = continuous flow of audio data
+- Like a water pipe — data flows continuously
+
+File audioFile = new File("voice_input.wav");
+- Creates a File object pointing to voice_input.wav
+- File doesn't exist yet — we're just preparing the path
+- Like choosing where to save before actually saving
+
+---
+
+### Step 4 — Record in Separate Thread
+Thread recordThread = new Thread(() -> {
+    AudioSystem.write(audioStream, AudioFileFormat.Type.WAVE, audioFile);
+});
+recordThread.start();
+
+- Thread = a separate worker running alongside main program
+- Why separate thread? Because writing audio is BLOCKING
+  (it would freeze the main program while recording)
+- With separate thread: main program continues counting 5 seconds
+  while recording thread captures audio simultaneously
+- AudioFileFormat.Type.WAVE = save as WAV format
+- Think of it like: hiring an assistant to record
+  while you watch the clock
+
+---
+
+### Step 5 — Stop After 5 Seconds
+Thread.sleep(RECORD_SECONDS * 1000);
+- Thread.sleep() = pause the main program
+- 5 * 1000 = 5000 milliseconds = 5 seconds
+- Why milliseconds? Java measures time in milliseconds
+- During this sleep, the recording thread is busy capturing
+
+microphone.stop();
+microphone.close();
+- .stop() = stop capturing audio
+- .close() = release the microphone (free the hardware)
+- ALWAYS close hardware after using it!
+- Like turning off and unplugging the microphone
+
+---
+
+### Full Flow Summary:
+1. Define audio settings (format)
+2. Check if mic exists
+3. Open and turn on mic
+4. Start recording thread (runs in background)
+5. Main thread sleeps 5 seconds
+6. Stop mic and close it
+7. Return the WAV file
+
+### What is a Thread?
+- Your program normally runs one task at a time (single thread)
+- With multiple threads = doing two things simultaneously
+- Example: 
+  Main thread  → counting 5 seconds
+  Record thread → capturing audio
+  Both happening at the SAME TIME
+- This is called multithreading — very important concept!
