@@ -98,3 +98,53 @@ Vani AI decouples voice intelligence from dedicated speaker hardware:
    ```bash
    git clone [https://github.com/Paradoxxt/vani-ai.git](https://github.com/Paradoxxt/vani-ai.git)
    cd vani-ai
+
+2. **Configure your environment credentials:
+     Set your Sarvam API subscription key as an environment variable:**
+   # Windows PowerShell
+   $env:SARVAM_API_KEY="your_actual_api_key_here"
+   # Linux / macOS
+   export SARVAM_API_KEY="your_actual_api_key_here"
+
+3. **Build the project:**
+   mvn clean compile
+
+4. **Run the translation & speech pipeline:**
+   mvn exec:java
+
+##🗺️ Engineering Roadmap
+
+-**[x] Initial architecture definition & Indic API evaluation**
+
+-**[x] Integrate Sarvam AI Indic translation endpoint in Java**
+
+-**[ ] Implement A2DP auto-reconnect script for Linux Bluetooth stack**
+
+-**[ ] Add openWakeWord / Porcupine trigger for "Hey Vani"**
+
+-**[ ] Expand acoustic models for Hindi and Bengali speech-to-text**
+
+-**[ ] Build offline fallback mode for local system commands**
+
+##🤝 Contributing
+
+###Contributions to regional language acoustic models, Bluetooth audio bindings, and edge packaging are welcome.
+
+1.**Fork the repository**
+
+2.**Create your feature branch (git checkout -b feature/IndicPipelineOptimization)**
+
+3.**Commit your changes (git commit -m 'feat: optimize audio stream buffer')**
+
+4.**Push to the branch (git push origin feature/IndicPipelineOptimization)**
+
+5.**Open a Pull Request**
+
+
+##👨‍💻 Author
+
+###Subhojit Samanta — @Paradoxxt
+
+**B.Tech Computer Science Sophomore · Kolkata, India
+
+"Voice assistance shouldn't be a luxury — it should be for everyone."**
