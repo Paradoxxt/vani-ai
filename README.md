@@ -1,4 +1,4 @@
-<h1 align="center">🗣️ Vani AI</h1>
+<h1 align="center">🗣️ Vani AI (वाणी)</h1>
 
 <p align="center">
   <b>A cost-efficient, multilingual voice assistant for budget Bluetooth speakers</b><br/>
@@ -6,105 +6,95 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Planning%20Stage-yellow?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Languages-All%20Major%20Indian-orange?style=for-the-badge"/>
-  <img src="https://img.shields.io/badge/Target-Budget%20BT%20Speakers-blue?style=for-the-badge"/>
+  <a href="https://openjdk.org/"><img src="https://img.shields.io/badge/Java-17+-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java"/></a>
+  <a href="https://maven.apache.org/"><img src="https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white" alt="Maven"/></a>
+  <a href="https://www.sarvam.ai/"><img src="https://img.shields.io/badge/Sarvam_AI-Indic_Models-blueviolet?style=for-the-badge" alt="Sarvam AI"/></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT"/></a>
 </p>
 
 ---
 
 ## 💡 The Problem
 
-Smart voice assistants like Amazon Alexa and Google Home are powerful — but they require expensive proprietary hardware. Millions of Indians already own budget Bluetooth speakers from brands like **boAt, Zebronics, Portronics**, and more. These devices have no "smart" capability despite being perfectly capable audio output devices.
+Smart voice assistants like Amazon Alexa and Google Home rely on proprietary, expensive hardware costing upwards of ₹5,000. Meanwhile, millions of Indian households already own capable, affordable Bluetooth speakers from brands like **boAt, Zebronics, and Portronics** (costing ₹800–₹1,500) that serve strictly as passive audio output sinks.
 
-**Why buy a ₹5000 smart speaker when you already have a ₹800 one?**
+**Why buy a ₹5,000 proprietary hub when you already own a functional speaker?**
 
 ---
 
 ## 🎯 Vision
 
-Vani AI aims to be a **cost-efficient, locally-aware voice assistant** that:
+Vani AI decouples voice intelligence from dedicated speaker hardware:
 
-- Works with **any Bluetooth speaker** — no new hardware needed
-- Supports **all major Indian languages** (Hindi, Bengali, Tamil, Telugu, Marathi, Kannada, Gujarati, and more)
-- Runs on a **low-cost device** (smartphone or Raspberry Pi)
-- Provides **region-aware responses** tailored for Indian users
-- Operates with **minimal internet dependency** for core features
-
----
-
-## 🧠 Planned Features
-
-| Feature | Description |
-|---|---|
-| 🎙️ Wake Word Detection | Custom wake word (e.g. "Hey Vani") |
-| 🌐 Multilingual NLP | Understands and responds in 10+ Indian languages |
-| 🔊 BT Speaker Integration | Seamless pairing with budget Bluetooth devices |
-| 📡 Offline Mode | Core commands work without internet |
-| 🏠 Smart Home Hooks | Control lights, fans via basic IoT integration |
-| 🎵 Media Control | Play music, control volume, skip tracks |
-| 📰 Local News & Weather | Region-specific updates in your language |
+- **Hardware Agnostic:** Directs synthesized audio to any paired Bluetooth speaker over standard A2DP profiles.
+- **Indic Language Native:** Built specifically for regional phonetics and cross-lingual translation across Hindi, Bengali, and other major Indian languages.
+- **Edge-Focused Execution:** Designed to run on low-power devices (Android devices via Termux or Raspberry Pi Zero 2W).
+- **Hybrid Connectivity:** Uses offline engines for local commands and low-latency Indic cloud models for advanced conversational queries.
 
 ---
 
-## 🏗️ Architecture (Planned)
+## 🏗️ System Architecture
 
 <pre>
-User Voice Input
-      ↓
-Wake Word Detection
-      ↓
-Speech-to-Text (Multilingual)
-      ↓
-Intent Recognition / NLP Engine
-      ↓
-Response Generator (Localized)
-      ↓
-Text-to-Speech → Bluetooth Speaker Output
+[ User Voice / Query Input ]
+            │
+            ▼
+┌────────────────────────────────────────────────────────┐
+│ Vani AI Host Service (Java Engine)                     │
+│                                                        │
+│  [ Audio Capture & Stream Processor ]                  │
+│            │                                           │
+│            ▼                                           │
+│  [ Wake Word Detection ] ── ("Hey Vani")               │
+│            │                                           │
+│            ▼                                           │
+│  [ Indic NLP & Speech Layer ]                          │
+│      ├── Local Fallback (Vosk / Offline Grammar)       │
+│      └── Sarvam AI API (Indic STT, Translation & TTS)  │
+│            │                                           │
+│            ▼                                           │
+│  [ Audio Dispatch Engine ]                             │
+└────────────────────────────────────────────────────────┘
+            │
+            ▼ (Bluetooth A2DP Stream)
+[ Budget Bluetooth Speaker (boAt / Zebronics / Portronics) ]
 </pre>
 
 ---
 
-## 🛠️ Tech Stack (Under Evaluation)
+## 🧠 Core Capabilities
 
-- **Speech Recognition:** Whisper (OpenAI) / Vosk (offline)
-- **NLP / Intent:** Rasa / custom model
-- **Backend:** Java (Spring Boot) / Python
-- **TTS:** Google TTS / Coqui TTS (offline)
-- **Hardware Target:** Android phone / Raspberry Pi Zero 2W
-- **BT Communication:** Android Bluetooth API / BlueZ (Linux)
-
----
-
-## 🗺️ Roadmap
-
-- [ ] Finalize tech stack
-- [ ] Build basic wake word detection prototype
-- [ ] Implement Hindi + Bengali STT pipeline
-- [ ] Add remaining Indian language support
-- [ ] Integrate with Bluetooth audio output
-- [ ] Offline mode for core commands
-- [ ] Public beta release
+| Capability | Status | Description |
+|---|---|---|
+| **🌐 Indic Translation & NLP** | 🟢 Implemented | REST integration with Sarvam AI for low-latency Hindi and Indic language pipelines |
+| **🔊 Bluetooth A2DP Sink** | 🟡 In Progress | Audio routing to external budget Bluetooth audio sinks |
+| **🎙️ Wake Word Detection** | 🟡 In Progress | Lightweight on-device wake-word detection engine ("Hey Vani") |
+| **📡 Offline Command Mode** | ⚪ Planned | Offline speech intent parsing for core commands (volume, media, system status) |
+| **🏠 Local IoT Hooks** | ⚪ Planned | Lightweight MQTT/HTTP relays for budget ESP8266 smart home controls |
 
 ---
 
-## 🤝 Contributing
+## 🛠️ Tech Stack
 
-This project is in early planning. Ideas, suggestions, and contributions are very welcome!
-
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feature/your-idea`)
-3. Commit your changes
-4. Open a Pull Request
-
----
-
-## 👨‍💻 Author
-
-**Subhojit Samanta** — [@Paradoxxt](https://github.com/Paradoxxt)
-
-> *"Voice assistance shouldn't be a luxury — it should be for everyone."*
+- **Core Engine:** Java 17+, Maven
+- **Indic NLP & Translation:** Sarvam AI REST API
+- **Networking & Serialization:** Java HTTP Client, Jackson JSON
+- **Audio & Bluetooth Layer:** BlueZ / PulseAudio / Java Sound API
+- **Target Edge Hardware:** Raspberry Pi (Zero 2W / 4B) / Linux / Android
 
 ---
 
-<p align="center">⭐ Star this repo if you believe in accessible AI for India!</p>
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **Java Development Kit (JDK 17+)** installed and added to `PATH`
+- **Apache Maven 3.8+**
+- A valid API key from [Sarvam AI](https://www.sarvam.ai/)
+
+### Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/Paradoxxt/vani-ai.git](https://github.com/Paradoxxt/vani-ai.git)
+   cd vani-ai
