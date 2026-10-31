@@ -98,53 +98,64 @@ Vani AI decouples voice intelligence from dedicated speaker hardware:
    ```bash
    git clone [https://github.com/Paradoxxt/vani-ai.git](https://github.com/Paradoxxt/vani-ai.git)
    cd vani-ai
+   ```
 
-2. **Configure your environment credentials:
-     Set your Sarvam API subscription key as an environment variable:**
-   # Windows PowerShell
+2. **Configure your environment credentials:**
+   
+   *Windows PowerShell:*
+   ```powershell
    $env:SARVAM_API_KEY="your_actual_api_key_here"
-   # Linux / macOS
+   ```
+
+   *Linux / macOS:*
+   ```bash
    export SARVAM_API_KEY="your_actual_api_key_here"
+   ```
 
 3. **Build the project:**
+   ```bash
    mvn clean compile
+   ```
 
 4. **Run the translation & speech pipeline:**
+   ```bash
    mvn exec:java
+   ```
 
-##🗺️ Engineering Roadmap
+---
 
--**[x] Initial architecture definition & Indic API evaluation**
+## 🗺️ Engineering Roadmap
 
--**[x] Integrate Sarvam AI Indic translation endpoint in Java**
+- [x] Initial architecture definition & Indic API evaluation
+- [x] Integrate Sarvam AI Indic translation endpoint in Java
+- [ ] Implement A2DP auto-reconnect script for Linux Bluetooth stack
+- [ ] Add openWakeWord / Porcupine trigger for "Hey Vani"
+- [ ] Expand acoustic models for Hindi and Bengali speech-to-text
+- [ ] Build offline fallback mode for local system commands
 
--**[ ] Implement A2DP auto-reconnect script for Linux Bluetooth stack**
+---
 
--**[ ] Add openWakeWord / Porcupine trigger for "Hey Vani"**
+## 🤝 Contributing
 
--**[ ] Expand acoustic models for Hindi and Bengali speech-to-text**
+Contributions to regional language acoustic models, Bluetooth audio bindings, and edge packaging are welcome.
 
--**[ ] Build offline fallback mode for local system commands**
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/IndicPipelineOptimization`)
+3. Commit your changes (`git commit -m 'feat: optimize audio stream buffer'`)
+4. Push to the branch (`git push origin feature/IndicPipelineOptimization`)
+5. Open a Pull Request
 
-##🤝 Contributing
+---
 
-###Contributions to regional language acoustic models, Bluetooth audio bindings, and edge packaging are welcome.
+## 👨‍💻 Author
 
-1.**Fork the repository**
+**Subhojit Samanta** — [@Paradoxxt](https://github.com/Paradoxxt)  
+*B.Tech Computer Science Sophomore · Kolkata, India*  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/subhojitsamanta)  
+[![Email](https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:subhojit.samanta.backend@gmail.com)
 
-2.**Create your feature branch (git checkout -b feature/IndicPipelineOptimization)**
+> *"Voice assistance shouldn't be a luxury — it should be for everyone."*
 
-3.**Commit your changes (git commit -m 'feat: optimize audio stream buffer')**
+---
 
-4.**Push to the branch (git push origin feature/IndicPipelineOptimization)**
-
-5.**Open a Pull Request**
-
-
-##👨‍💻 Author
-
-###Subhojit Samanta — @Paradoxxt
-
-**B.Tech Computer Science Sophomore · Kolkata, India
-
-"Voice assistance shouldn't be a luxury — it should be for everyone."**
+<p align="center">⭐ Star this repo if you believe in accessible AI for India!</p>
